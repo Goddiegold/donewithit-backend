@@ -1,12 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import Screen from "./app/components/Screen";
+import ListItem from "./app/components/ListItem";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+  <Screen>
+     <ListItem title={"My Title"} subTitle={"Subtitle innit"}/>
+  </Screen>
   );
 }
 
