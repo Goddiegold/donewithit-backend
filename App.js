@@ -1,13 +1,30 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import Screen from "./app/components/Screen";
 import ListItem from "./app/components/ListItem";
+import Icon from "./app/components/Icon";
+import AccountScreen from './app/screens/AccountScreen';
+import ListingsScreen from './app/screens/ListingsScreen';
+import AppTextInput from './app/components/AppTextInput';
+import AppPicker from './app/components/AppPicker';
+import { useState } from 'react';
+
+const categories = [
+  {label:"Furniture",value:1},
+  {label:"Books",value:2},
+  {label:"Electronics",value:3}
+]
 
 export default function App() {
+  const [category,setCategory] = useState(categories[0])
   return (
-  <Screen>
-     <ListItem title={"My Title"} subTitle={"Subtitle innit"}/>
-  </Screen>
+    <Screen> 
+   <AppPicker 
+   selectedItem={category}
+   onSelected={item=>setCategory(item)}
+   icon={"apps"} placeholder={"Category"} items={categories}/>
+   <AppTextInput placeholder={"email"}/>
+    </Screen>
   );
 }
 
