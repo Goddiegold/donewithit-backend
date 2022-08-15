@@ -7,17 +7,29 @@ import defaultStyles from '../config/styles';
 import AppText from './AppText';
 import PickerItem from './PickerItem';
 
-function AppPicker({icon, items, selectedItem, onSelected, placeholder}) {
+function AppPicker({icon,
+     items,
+      selectedItem,
+       onSelected, 
+       placeholder,width="100%",
+       PickerItemComponent=PickerItem,
+       numColumns=1
+    }) {
     const [modalVisible,setModalVisible] = useState(false)
     return (
         <>
         <TouchableWithoutFeedback onPress={()=>setModalVisible(!modalVisible)}>
-<View style={styles.container}>
+<View style={[styles.container,{width}]}>
       {icon&&<MaterialCommunityIcons name={icon} color={defaultStyles.colors.medium} size={20} style={styles.icon}/>}
-<AppText style={styles.text}>
-{selectedItem?selectedItem.label:placeholder}
+   {selectedItem?<AppText style={styles.text}>
+   {selectedItem.label}
+      </AppText>:
+      <AppText style={styles.placeholder}>
+{placeholder}
 </AppText>
-{icon&&<MaterialCommunityIcons name="chevron-down" color={defaultStyles.colors.medium} size={20}/>}
+      }
+
+<MaterialCommunityIcons name="chevron-down" color={defaultStyles.colors.medium} size={20}/>
       </View>
         </TouchableWithoutFeedback>
       <Modal visible={modalVisible} animationType="slide">
@@ -25,8 +37,10 @@ function AppPicker({icon, items, selectedItem, onSelected, placeholder}) {
 <Button title='close Modal' onPress={()=>setModalVisible(!modalVisible)}/>
 <FlatList
     data={items}
+    numColumns={numColumns}
     keyExtractor={item=>item.value.toString()}
-    renderItem={({item})=><PickerItem
+    renderItem={({item})=><PickerItemComponent
+    item={item}
      label={item.label}
     onPress={()=>{
         console.log(item)
@@ -46,7 +60,6 @@ const styles = StyleSheet.create({
         backgroundColor:defaultStyles.colors.light,
         borderRadius:25,
         flexDirection:'row',
-        width:"100%",
         padding:15,
         marginVertical:10
     },
@@ -54,6 +67,10 @@ const styles = StyleSheet.create({
 marginRight:10
     },
     text:{
+        flex:1
+    },
+    placeholder:{
+        color:defaultStyles.colors.medium,
         flex:1
     }
 })
