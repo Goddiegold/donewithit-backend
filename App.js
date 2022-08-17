@@ -1,15 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
-import Screen from "./app/components/Screen";
-import ListItem from "./app/components/ListItem";
-import Icon from "./app/components/Icon";
-import AccountScreen from './app/screens/AccountScreen';
-import ListingsScreen from './app/screens/ListingsScreen';
-import AppTextInput from './app/components/AppTextInput';
-import AppPicker from './app/components/AppPicker';
-import { useState } from 'react';
-import LoginScreen from './app/screens/LoginScreen';
-import ListingEditScreen from './app/screens/ListingEditScreen';
+import { Button, StyleSheet, Text, TextInput, View,Image } from 'react-native';
+import { useEffect, useState } from 'react';
+import Screen from './app/components/Screen';
+import * as ImagePicker from "expo-image-picker";
+import  * as Permissions from "expo-permissions";
+import ImageInput from './app/components/ImageInput';
+import ImageInputList from './app/components/ImageInputList';
 
 const categories = [
   {label:"Furniture",value:1},
@@ -19,9 +15,18 @@ const categories = [
 
 export default function App() {
   const [category,setCategory] = useState(categories[0])
+const [imageUris,setImageUris] = useState([])
+
+function handleAdd(uri){
+  setImageUris([...imageUris,uri])
+}
+
+function handleRemove(uri){
+  setImageUris(imageUris.filter(imageUri=>imageUri!==uri))
+}
   return (
-    <Screen>     
-    <ListingEditScreen/>
+    <Screen>  
+<ImageInputList imageUris={imageUris} onAddImage={handleAdd} onRemoveImage={handleRemove}/>
     </Screen>
   );
 }

@@ -1,8 +1,8 @@
 import React from 'react';
 import { View,StyleSheet,Image,TouchableHighlight } from 'react-native';
 import {MaterialCommunityIcons} from "@expo/vector-icons"
-import colors from '../config/colors';
-import AppText from './AppText';
+import colors from '../../config/colors';
+import AppText from '../Text';
 import Swipeable from "react-native-gesture-handler/Swipeable"
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 

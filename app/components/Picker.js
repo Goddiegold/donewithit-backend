@@ -4,7 +4,7 @@ import Screen from './Screen';
 import {MaterialCommunityIcons} from "@expo/vector-icons"
 import colors from '../config/colors';
 import defaultStyles from '../config/styles';
-import AppText from './AppText';
+import AppText from './Text';
 import PickerItem from './PickerItem';
 
 function AppPicker({icon,

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Image, View, StyleSheet } from 'react-native';
-import AppText from '../components/AppText';
+import AppText from '../components/Text';
 import colors from '../config/colors';
-import ListItem from '../components/ListItem';
+import {ListItem }from '../components/lists';
 
 const ListingDetailsScreeen = () => {
     return (

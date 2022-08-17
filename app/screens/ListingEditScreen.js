@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import * as Yup from "yup";
 import CategoryPickerItem from '../components/CategoryPickerItem';
 import {AppForm,SubmitButton, AppFormField} from "../components/forms"
-import AppFormPicker from '../components/forms/AppFormPicker';
+import {AppFormPicker} from '../components/forms';
 import Screen from '../components/Screen';
 
 const validationSchema = Yup.object().shape({
