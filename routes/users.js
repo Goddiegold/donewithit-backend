@@ -3,6 +3,7 @@ const router = express.Router();
 const Joi = require("joi");
 const usersStore = require("../store/users");
 const validateWith = require("../middleware/validation");
+const jwt = require('jsonwebtoken');
 
 const schema = {
   name: Joi.string().required().min(2),
@@ -20,7 +21,12 @@ router.post("/", validateWith(schema), (req, res) => {
   const user = { name, email, password };
   usersStore.addUser(user);
 
-  res.status(201).send(user);
+  const token = jwt.sign(
+    { userId: usersStore.getUsers().length, name: user.name, email },
+    "jwtPrivateKey"
+  );
+
+  res.status(201).send({user,token});
 });
 
 router.get("/", (req, res) => {
