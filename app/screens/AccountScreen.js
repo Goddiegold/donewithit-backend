@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import Screen from '../components/Screen';
 import { FlatList, StyleSheet, View } from 'react-native';
 import {ListItem} from '../components/lists';
@@ -6,6 +6,8 @@ import colors from '../config/colors';
 import Icon from '../components/Icon';
 import {ListItemSeperator} from '../components/lists';
 import routes from '../navigation/routes';
+import AuthContext, { useAuthContext } from '../auth/context';
+import { removeToken } from '../auth/storage';
 
 const menuItems = [
     {title:"My Listings",
@@ -24,12 +26,20 @@ targetScreen:routes.MESSAGES
 ]
 
 function AccountScreen({navigation}) {
+   // const {user,setUser} = useContext(AuthContext)
+   const {user,setUser} = useAuthContext( )
+    console.log(user);
+
+    const handleLoogut = async () => {
+        setUser({})
+        removeToken();
+    }
     return (
        <Screen style={styles.screen}>
        <View style={styles.container}>
        <ListItem
-            title={"John Wick"}
-            subTitle={"johnwick@boxoffice.org"}
+            title={user?.name}
+            subTitle={user?.email}
             image={require("../assets/mosh.jpg")}
         />
        </View>
@@ -51,8 +61,9 @@ function AccountScreen({navigation}) {
             />}
         />
        </View>
-<ListItem
+<ListItem  
     title={"Logout"}
+        onPress={handleLoogut}
     IconComponent={
         <Icon
             name="logout"

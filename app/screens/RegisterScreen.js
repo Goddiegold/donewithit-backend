@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import * as Yup from "yup";
 
 import Screen from "../components/Screen";
-import { AppForm, AppFormField, SubmitButton } from "../components/forms";
+import { AppForm, AppFormField, ErrorMessage, SubmitButton } from "../components/forms";
+import { register } from "../../api/auth";
+import { decodeUserToken } from "../../util/user";
+import {useAuthContext} from "../auth/context";
+import { storeToken } from "../auth/storage";
+import ActivityIndicator from "../components/ActivityIndicator";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().label("Name"),
@@ -11,12 +16,41 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required().min(4).label("Password"),
 });
 
+
+
 function RegisterScreen() {
+  const [error,setError] = useState({
+    status:false,
+    message:""
+  })
+
+  const [loading,setLoading] = useState(false)
+  const {setUser} = useAuthContext()
+
+  const handleSubmit = (values) => {
+    setError({status:false,message:""})
+    setLoading(true)
+    register(values).then(res=>{
+      console.log(res)
+      setLoading(false)
+      const token = res.data.token;
+      setUser(decodeUserToken(token))
+      storeToken(token)
+      alert('Account created successfully!')
+    }).catch(err=>{
+      setLoading(false)
+      setError({status:true,message:err.response.data.error})
+    })
+  }
+
+  if(loading) return  <ActivityIndicator visible={loading}/>
+
   return (
     <Screen style={styles.container}>
+    <ErrorMessage visible={error.status} error={error.message}/>
       <AppForm
         initialValues={{ name: "", email: "", password: "" }}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
         <AppFormField
